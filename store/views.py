@@ -2,11 +2,11 @@ from rest_framework import status
 from .filters import ProductFilter
 from store.models import Product, OrderItem, Customer
 from .serializers import ProductSerializer, CustomerSerializer
-from rest_framework.decorators import action
+from rest_framework.decorators import action, permission_classes
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
-from store.permissions import IsAdminOrReadOnly
 from store.pagination import DefaultPagination
+from store.permissions import IsAdminOrReadOnly, ViewCustomerHistoryPermission
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter, OrderingFilter
@@ -43,6 +43,10 @@ class CustomerViewSet(ModelViewSet):
     queryset = Customer.objects.all()
     serializer_class = CustomerSerializer
     permission_classes = [IsAdminUser]
+
+    @action(detail=True, permission_classes=[ViewCustomerHistoryPermission])
+    def history(self, request, pk):
+        return Response('ok')
 
     @action(detail=False, methods=['GET', 'PUT'], permission_classes=[IsAuthenticated])
     def me(self, request):
