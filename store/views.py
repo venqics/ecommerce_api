@@ -1,7 +1,8 @@
 from rest_framework import status
 from .filters import ProductFilter
-from store.models import Product, OrderItem
-from .serializers import ProductSerializer
+from rest_framework.decorators import action
+from store.models import Product, OrderItem, Customer
+from .serializers import ProductSerializer, CustomerSerializer
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from django_filters.rest_framework import DjangoFilterBackend
@@ -32,3 +33,7 @@ class ProductViewSet(ModelViewSet):
     #       return Response({'error': 'Product cannot be deleted because it is associated with an order item.'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
     #   product.delete()
     #   return Response(status=status.HTTP_204_NO_CONTENT)
+
+class CustomerViewSet(ModelViewSet):
+    queryset = Customer.objects.all()
+    serializer_class = CustomerSerializer
