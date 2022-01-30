@@ -9,7 +9,10 @@ class ProductAdmin(admin.ModelAdmin):
 
 @admin.register(models.Customer)
 class CustomerAdmin(admin.ModelAdmin):
-    pass
+    list_display = ['first_name', 'last_name', 'phone']
+    list_select_related = ['user']
+    ordering = ['user__first_name', 'user__last_name']
+    search_fields = ['first_name__istartswith', 'last_name__istartswith']
 
 @admin.register(models.Order)
 class OrderAdmin(admin.ModelAdmin):
