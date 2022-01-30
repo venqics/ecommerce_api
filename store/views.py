@@ -1,14 +1,21 @@
 from rest_framework import status
+from .filters import ProductFilter
 from store.models import Product, OrderItem
 from .serializers import ProductSerializer
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import SearchFilter, OrderingFilter
 
 # Create your views here.
 
 class ProductViewSet(ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+    filterset_class = ProductFilter
+    ordering_fields = ['title', ' unit_price']
+    search_fields = ['title']
 
     def get_serializer_context(self):
         return {'request': self.request}
