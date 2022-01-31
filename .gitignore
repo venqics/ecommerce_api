@@ -1,3 +1,4 @@
-/ecommerceenv
+/ecomenv
 .env
 migrations
+__pycache__

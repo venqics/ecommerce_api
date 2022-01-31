@@ -5,15 +5,15 @@ name = "pypi"
 
 [packages]
 django = "*"
-psycopg2 = "*"
-python-decouple = "*"
-django-debug-toolbar = "*"
 djangorestframework = "*"
-django-filter = "*"
-djoser = "*"
 djangorestframework-simplejwt = "*"
+djoser = "*"
+django-filter = "*"
+django-debug-toolbar = "*"
+mysqlclient = "*"
+python-decouple = "*"
 
 [dev-packages]
 
 [requires]
-python_version = "3.10"
+python_version = "3.8"
