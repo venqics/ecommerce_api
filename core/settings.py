@@ -15,6 +15,7 @@ import os
 from decouple import config
 from pathlib import Path
 from datetime import timedelta
+from celery.schedules import crontab
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -167,3 +168,11 @@ SIMPLE_JWT = {
 
 AUTH_USER_MODEL = 'account.User'
 
+CELERY_BROKER_URL = 'redis://localhost:6379/1'
+
+CELERY_BEAT_SCHEDULE = {
+        "add_data": {
+        "task": "core.tasks.add_data",
+        "schedule": crontab(minute=30, hour=14),
+    }
+}

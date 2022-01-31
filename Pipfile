@@ -13,6 +13,12 @@ django-debug-toolbar = "*"
 mysqlclient = "*"
 python-decouple = "*"
 drf-nested-routers = "*"
+redis = "*"
+celery = "*"
+pandas = "*"
+openpyxl = "*"
+sqlalchemy = "*"
+flower = "*"
 
 [dev-packages]
 
