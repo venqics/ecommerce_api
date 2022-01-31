@@ -1,10 +1,11 @@
 from rest_framework import status
 from .filters import ProductFilter
-from store.models import Product, OrderItem, Customer
-from .serializers import ProductSerializer, CustomerSerializer
+from store.models import Product, OrderItem, Customer, Cart
+from .serializers import ProductSerializer, CustomerSerializer, CartSerializer
 from rest_framework.decorators import action, permission_classes
 from rest_framework.response import Response
-from rest_framework.viewsets import ModelViewSet
+from rest_framework.viewsets import ModelViewSet, GenericViewSet
+from rest_framework.mixins import CreateModelMixin
 from store.pagination import DefaultPagination
 from store.permissions import IsAdminOrReadOnly, ViewCustomerHistoryPermission
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
@@ -60,3 +61,8 @@ class CustomerViewSet(ModelViewSet):
             serializer.is_valid(raise_exception=True)
             serializer.save()
             return Response(serializer.data)
+
+
+class CartViewSet(CreateModelMixin, GenericViewSet):
+    queryset = Cart.objects.all()
+    serializer_class = CartSerializer

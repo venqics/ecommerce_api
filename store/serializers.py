@@ -1,4 +1,4 @@
-from store.models import Product, Customer
+from store.models import Product, Customer, Cart
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 
@@ -22,3 +22,10 @@ class CustomerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Customer
         fields = ['id', 'user_id', 'first_name', 'last_name', 'phone']
+
+
+class CartSerializer(serializers.ModelSerializer):
+    id = serializers.UUIDField(read_only=True)
+    class Meta:
+        model = Cart
+        fields = ['id']
