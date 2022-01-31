@@ -10,7 +10,7 @@ from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.mixins import CreateModelMixin, DestroyModelMixin, RetrieveModelMixin
-from .serializers import ProductSerializer, CustomerSerializer, CartSerializer, CartItemSerializer, AddCartItemSerializer, UpdateCartItemSerializer, OrderSerializer
+from .serializers import ProductSerializer, CustomerSerializer, CartSerializer, CartItemSerializer, AddCartItemSerializer, UpdateCartItemSerializer, OrderSerializer, CreateOrderSerializer, UpdateOrderSerializer
 
 # Create your views here.
 
@@ -89,11 +89,30 @@ class CartItemViewSet(ModelViewSet):
                 .filter(cart_id=self.kwargs['cart_pk']) \
                 .select_related('product')
 
-
 class OrderViewSet(ModelViewSet):
-    serializer_class = OrderSerializer
-    permission_classes = [IsAuthenticated]
-    
+    http_method_names = ['get', 'post', 'patch', 'delete', 'head', 'options']
+
+    def get_permissions(self):
+        if self.request.method in ['PATCH', 'DELETE']:
+            return [IsAdminUser()]
+        return [IsAuthenticated()]
+
+    def create(self, request, *args, **kwargs):
+        serializer = CreateOrderSerializer(
+            data=request.data,
+            context={'user_id': self.request.user.id})
+        serializer.is_valid(raise_exception=True)
+        order = serializer.save()
+        serializer = OrderSerializer(order)
+        return Response(serializer.data)
+
+    def get_serializer_class(self):
+        if self.request.method == 'POST':
+            return CreateOrderSerializer
+        elif self.request.method == 'PATCH':
+            return UpdateOrderSerializer
+        return OrderSerializer
+
     def get_queryset(self):
         user = self.request.user
 
@@ -101,5 +120,5 @@ class OrderViewSet(ModelViewSet):
             return Order.objects.all()
 
         customer_id = Customer.objects.only(
-            'id').get_or_create(user_id=user.id)                         #Sepration of command query principle
+            'id').get_or_create(user_id=user.id)
         return Order.objects.filter(customer_id=customer_id)
