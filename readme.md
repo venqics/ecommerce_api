@@ -1,9 +1,9 @@
-##### Introduction
+# Introduction
 
 ***The goal of this project is to implement a ecommerce REST api allowing for basic CRUD functionality for orders and product endpoints. Additionally, there is functionality for running periodic tasks in the background using celery and message broker as redis***
 
 
-##### Main features
+# Main features
 
 **CRUD of Orders and Products with Django DRF**
 
@@ -20,7 +20,7 @@
 **Separation of dev and production settings for deployments and configuring env variables**
 
 
-##### Usage
+# Usage
 
 
 Existing virtualenv
@@ -39,7 +39,7 @@ And then run the django-admin.py command to start the new project:
 After that just install the local dependencies, run migrations, and start the server.
 
 
-###### Getting Started
+# Getting Started
 
 
 First clone the repository from Github and switch to the new directory:
@@ -76,7 +76,7 @@ Alternately create a superuser or admin using:
 $ python manage.py createsuperuser
 ```
 
-##### REST API documentation
+# REST API documentation
 
 
 > You can register new users here:
@@ -158,7 +158,7 @@ $ celery -A <name_of_your_app> beat
 *Note: You have to correctly import celery with respect to your settings module for celery to discover and execute the tasks*
 
 
-##### Deployment settings:
+# Deployment settings
 
 
 use dev.py for local development and testing
@@ -202,7 +202,7 @@ For production use [gunicorn](https://docs.djangoproject.com/en/4.0/howto/deploy
 $ gunicorn your_app_name.wsgi
 ```
 
-##### References
+# References
 
 
 ***You can reference the [django documentation](https://docs.djangoproject.com/en/4.0/) here:***
