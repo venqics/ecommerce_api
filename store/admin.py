@@ -5,7 +5,9 @@ from django.contrib import admin
 
 @admin.register(models.Product)
 class ProductAdmin(admin.ModelAdmin):
-    pass
+    list_display = ['title', 'unit_price']
+    list_editable = ['unit_price']
+    search_fields = ['title']
 
 @admin.register(models.Customer)
 class CustomerAdmin(admin.ModelAdmin):

@@ -12,6 +12,7 @@ django-filter = "*"
 django-debug-toolbar = "*"
 mysqlclient = "*"
 python-decouple = "*"
+drf-nested-routers = "*"
 
 [dev-packages]
 
