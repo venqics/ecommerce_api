@@ -1,4 +1,4 @@
-from store.models import Product, Customer, Cart, CartItem
+from store.models import Product, Customer, Cart, CartItem, Order, OrderItem
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 
@@ -86,3 +86,16 @@ class UpdateCartItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = CartItem
         fields = ['quantity']
+
+class OrderItemSerializer(serializers.ModelSerializer):
+    product = SimpleProductSerializer()
+
+    class Meta:
+        model = OrderItem
+        fields = ['id', 'product', 'unit_price', 'quantity']
+
+class OrderSerializer(serializers.ModelSerializer):
+    items = OrderItemSerializer(many=True)
+    class Meta:
+        model = Order
+        fields = ['id', 'customer', 'seller', 'placed_at', 'payment_status']

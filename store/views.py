@@ -1,6 +1,6 @@
 from rest_framework import status
 from .filters import ProductFilter
-from store.models import Product, OrderItem, Customer, Cart, CartItem
+from store.models import Product, OrderItem, Customer, Cart, CartItem, Order
 from rest_framework.decorators import action, permission_classes
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet, GenericViewSet
@@ -10,7 +10,7 @@ from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.mixins import CreateModelMixin, DestroyModelMixin, RetrieveModelMixin
-from .serializers import ProductSerializer, CustomerSerializer, CartSerializer, CartItemSerializer, AddCartItemSerializer, UpdateCartItemSerializer
+from .serializers import ProductSerializer, CustomerSerializer, CartSerializer, CartItemSerializer, AddCartItemSerializer, UpdateCartItemSerializer, OrderSerializer
 
 # Create your views here.
 
@@ -88,3 +88,8 @@ class CartItemViewSet(ModelViewSet):
         return CartItem.objects \
                 .filter(cart_id=self.kwargs['cart_pk']) \
                 .select_related('product')
+
+
+class OrderViewSet(ModelViewSet):
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer
